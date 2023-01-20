@@ -5,14 +5,16 @@ import { capitalizeFirstLetters } from '../Utils/capitalizeFirstLetters';
 import { Form, Label, Input, AddContactButton } from './ContactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/store';
+import { addContact } from 'redux/contactsSlice';
+import { getContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(getContacts);
+
   // const [name, setName] = useState('');
   // const [number, setNumber] = useState('');
 
-  console.log(contacts);
+  // console.log(contacts);
 
   const dispatch = useDispatch();
 
@@ -42,13 +44,6 @@ export const ContactForm = () => {
       alert(`Sorry, ${capitalName} has already added!`);
       return;
     }
-
-    // const { name: nameItem, number: numberItem } = event.target.elements;
-    // onFormSubmit({
-    //   name: nameItem.value,
-    //   number: numberItem.value,
-    //   id: nanoid(),
-    // });
 
     dispatch(
       addContact({ name: capitalName, number: inputNumber, id: nanoid() })
@@ -95,7 +90,3 @@ export const ContactForm = () => {
     </Form>
   );
 };
-
-// ContactForm.propTypes = {
-//   onFormSubmit: PropTypes.func.isRequired,
-// };

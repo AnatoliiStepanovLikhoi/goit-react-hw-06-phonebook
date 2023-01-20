@@ -1,6 +1,6 @@
 // import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { filterContact } from '../../redux/store';
+import { filterContact } from '../../redux/filterSlice';
 
 import { Label, Input } from '../ContactForm/ContactForm.styled';
 
@@ -10,7 +10,7 @@ export function Filter() {
   const onFilterInput = event => {
     const filterInputValue = event.target.value.toLocaleLowerCase();
 
-    console.log(filterInputValue);
+    // console.log(filterInputValue);
 
     dispatch(filterContact(filterInputValue));
   };

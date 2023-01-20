@@ -5,13 +5,15 @@ import { ContactListItem } from './ContactListItem/ContactListItem';
 import { ContactsList, ContactsMessage } from './ContactList.styled';
 import { useSelector } from 'react-redux';
 
+import { getContacts, getFilter } from 'redux/selectors';
+
 export function ContactList(props) {
   // const { contacts, onContactDelete } = props;
 
   //   console.log(onContactDelete);
 
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
 
   // console.log(contacts);
 

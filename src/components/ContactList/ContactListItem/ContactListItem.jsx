@@ -8,7 +8,7 @@ import {
   RemoveContactButton,
 } from './ContactListItem.styled';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/store';
+import { deleteContact } from 'redux/contactsSlice';
 
 export function ContactListItem(props) {
   //   console.log(props.contactInfo.name);
