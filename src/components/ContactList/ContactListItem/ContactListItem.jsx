@@ -7,14 +7,20 @@ import {
   ContactText,
   RemoveContactButton,
 } from './ContactListItem.styled';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/store';
 
 export function ContactListItem(props) {
   //   console.log(props.contactInfo.name);
 
+  const dispatch = useDispatch();
+
   const {
     contactInfo: { name, number, id },
-    onContactDelete,
+    // onContactDelete,
   } = props;
+
+  const handleDelete = () => dispatch(deleteContact(id));
 
   const capitalName = capitalizeFirstLetters(name);
 
@@ -24,7 +30,7 @@ export function ContactListItem(props) {
       <ContactText>
         {capitalName}: {number}
       </ContactText>
-      <RemoveContactButton type="button" onClick={() => onContactDelete(id)}>
+      <RemoveContactButton type="button" onClick={handleDelete}>
         Remove
       </RemoveContactButton>
     </ListItem>
@@ -37,6 +43,4 @@ ContactListItem.propTypes = {
     number: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }),
-
-  onContactDelete: PropTypes.func.isRequired,
 };

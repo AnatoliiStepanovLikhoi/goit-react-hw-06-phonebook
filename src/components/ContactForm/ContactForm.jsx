@@ -1,25 +1,68 @@
-// import { Component } from 'react';
-import { PropTypes } from 'prop-types';
+// import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { capitalizeFirstLetters } from '../Utils/capitalizeFirstLetters';
 
 import { Form, Label, Input, AddContactButton } from './ContactForm.styled';
 
-export const ContactForm = ({ onFormSubmit }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/store';
+
+export const ContactForm = () => {
+  const contacts = useSelector(state => state.contacts);
+  // const [name, setName] = useState('');
+  // const [number, setNumber] = useState('');
+
+  console.log(contacts);
+
+  const dispatch = useDispatch();
+
+  const checkTheSameName = inputName => {
+    if (!contacts) return;
+
+    const normaliziedInputName = inputName.toLowerCase().trim();
+    // console.log(normaliziedInputName);
+
+    return contacts.find(
+      ({ name }) => name.toLowerCase() === normaliziedInputName
+    );
+  };
+
   const onSubmit = event => {
     event.preventDefault();
 
-    // console.log(event.currentTarget.elements);
+    const data = new FormData(event.target);
 
-    const { name: nameItem, number: numberItem } = event.currentTarget.elements;
+    const formObject = Object.fromEntries(data.entries());
 
-    onFormSubmit({
-      name: nameItem.value,
-      number: numberItem.value,
-      id: nanoid(),
-    });
+    const { name: inputName, number: inputNumber } = formObject;
+
+    const capitalName = capitalizeFirstLetters(inputName);
+
+    if (checkTheSameName(inputName)) {
+      alert(`Sorry, ${capitalName} has already added!`);
+      return;
+    }
+
+    // const { name: nameItem, number: numberItem } = event.target.elements;
+    // onFormSubmit({
+    //   name: nameItem.value,
+    //   number: numberItem.value,
+    //   id: nanoid(),
+    // });
+
+    dispatch(
+      addContact({ name: capitalName, number: inputNumber, id: nanoid() })
+    );
+
+    // setName(inputName);
+    // setNumber(inputNumber);
 
     event.currentTarget.reset();
   };
+
+  // const onInputChange = event => {
+  //   const { name: nameItem, number: numberItem } = event.target;
+  // };
 
   return (
     <Form onSubmit={onSubmit}>
@@ -33,6 +76,7 @@ export const ContactForm = ({ onFormSubmit }) => {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           // autoFocus
+          // onChange={onInputChange}
         />
       </Label>
       <Label>
@@ -44,6 +88,7 @@ export const ContactForm = ({ onFormSubmit }) => {
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
+          // onChange={onInputChange}
         />
       </Label>
       <AddContactButton type="submit">Add contacts</AddContactButton>
@@ -51,6 +96,6 @@ export const ContactForm = ({ onFormSubmit }) => {
   );
 };
 
-ContactForm.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//   onFormSubmit: PropTypes.func.isRequired,
+// };

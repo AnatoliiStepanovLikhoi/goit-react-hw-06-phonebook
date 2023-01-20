@@ -1,21 +1,32 @@
-import { PropTypes } from 'prop-types';
+// import { PropTypes } from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { filterContact } from '../../redux/store';
 
 import { Label, Input } from '../ContactForm/ContactForm.styled';
 
-export function Filter({ onFilterInput, value }) {
+export function Filter() {
+  const dispatch = useDispatch();
+
+  const onFilterInput = event => {
+    const filterInputValue = event.target.value.toLocaleLowerCase();
+
+    console.log(filterInputValue);
+
+    dispatch(filterContact(filterInputValue));
+  };
   return (
     <Label>
       Filter contacts by name
       <Input
-        onInput={event => onFilterInput(event.target.value)}
+        onInput={onFilterInput}
         name="search"
         placeholder="Search"
-        value={value}
+        // value={value}
       />
     </Label>
   );
 }
 
-Filter.protoTypes = {
-  onFilterInput: PropTypes.func.isRequired,
-};
+// Filter.protoTypes = {
+//   onFilterInput: PropTypes.func.isRequired,
+// };
