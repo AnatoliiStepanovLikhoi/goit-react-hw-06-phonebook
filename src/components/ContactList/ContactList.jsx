@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 import { getContacts, getFilter } from 'redux/selectors';
 
-export function ContactList(props) {
+export function ContactList() {
   // const { contacts, onContactDelete } = props;
 
   //   console.log(onContactDelete);
@@ -15,7 +15,7 @@ export function ContactList(props) {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
 
-  // console.log(contacts);
+  console.log(contacts);
 
   const selectedContacts = contacts.filter(({ name }) =>
     name.toLowerCase().includes(filter)
@@ -24,7 +24,7 @@ export function ContactList(props) {
   return (
     <ContactsList>
       {selectedContacts.length ? (
-        selectedContacts.map(contact => (
+        (selectedContacts ?? contacts).map(contact => (
           <ContactListItem
             key={contact.id}
             contactInfo={contact}
